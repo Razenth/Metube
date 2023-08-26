@@ -398,6 +398,12 @@ nav{
     cursor: pointer;
 }
 
+.publisher button:hover{
+    background: transparent;
+    color: red;
+    border: 1px solid red;
+}
+
 .vid-description{
     padding-left: 55px;
     margin: 15px 0;
