@@ -115,12 +115,12 @@ const path= "config";
 
 
 
-
-function changingVideo(parameter){ //Funcion para cambiar el video según video seleccionado
+ //Funcion para cambiar el video según video seleccionado
+function changingVideo(parameter){
     let iframe = document.querySelector('#video-left');
     iframe.insertAdjacentHTML('afterbegin', `
     <iframe width="100%" height="615" src="https://www.youtube.com/embed/${parameter}?si=czx-JXcyfxDxe0lv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-` )
+    `)
 }
 
 let storageElement = localStorage.getItem('ID')
@@ -128,6 +128,20 @@ console.log(storageElement);
 changingVideo(storageElement)
 
 
+// const urlVideoInfo = `https://youtube138.p.rapidapi.com/video/details/?id=${storageElement}&hl=en&gl=US`;
+const optionsVideoInfo = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+	}
+};
 
+
+(async(url,config)=>{ 
+    let peticion = await fetch (url,config) 
+    let response = await peticion.json()
+    console.log(response);
+})(urlVideoInfo,optionsVideoInfo);
 
 
