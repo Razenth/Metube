@@ -14,47 +14,72 @@ menuIcon.onclick = function(){
 
 // IMPORT DATA CHANNEL AND MAKING TESTS
 
+const creativeCodeURL = 'UC8fkwsjcI_MhralEX1g4OBw';
 // const urlChannel = 'https://youtube138.p.rapidapi.com/channel/details/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
-const optionsChannel = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
-		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
-	}
-};
-
-(async(url,config)=>{ 
-        let peticion = await fetch (url,config) 
+// const optionsChannel = {
+// 	method: 'GET',
+// 	headers: {
+// 		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+// 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+// 	}
+// };
+const pathChannel = "channel";
+(async(url)=>{ 
+        let peticion = await fetch (`./JSON/${url}.json`) 
         let response = await peticion.json()
         console.log(response);
 
+
+        // BANNER IMAGE
         let myBanner = document.querySelector('#myBanner');
         myBanner.insertAdjacentHTML("beforeend", `
             <img src="${response.banner.desktop[0].url}">
         `)
 
-})(urlChannel,optionsChannel);
+
+        // CHANNEL INFO
+
+        let myChannelInfo = document.querySelector('#channelInfo');
+        myChannelInfo.insertAdjacentHTML("beforeend", `
+            <img src="${response.avatar[2].url}" alt="channelPicture">
+            <div class="channel-subinfo flex-div">
+                <div class="realinfo">
+                    <h3>${response.title}</h3>
+                    <div class="flex-div">
+                        <span>${response.username}</span>
+                        <span>${response.stats.subscribersText}</span>
+                        <span>${response.stats.videosText}</span>
+                    </div>
+                    <a href=""><p>More information about this channel ></p></a>
+                </div>
+                <div class="contButton">
+                    <button type="button">Subscribe</button>
+                </div>
+            </div>
+        `)
+})(pathChannel);
 
 
 // const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
-const optionsVideos = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
-		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
-	}
-};
+// const optionsVideos = {
+// 	method: 'GET',
+// 	headers: {
+// 		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+// 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+// 	}
+// };
 
-(async(url,config)=>{ 
-        let peticion = await fetch (url,config) 
+const path= "config";
+(async(paramet)=>{ 
+        let peticion = await fetch (`./JSON/${paramet}.json`) 
         let response = await peticion.json()
         console.log(response);
 
         let myVideos = document.querySelector('#vid-container');
         myVideos.insertAdjacentHTML("beforeend", `
             ${response.contents.map((value)=>`
-                <div class="vid-list">
-                    <a href="./HTML/play-video.html"><img src="${value.video.thumbnails[3].url}" class="thumbnail"></a>
+                <div class="vid-list" video-id='${value.video.videoId}'>
+                    <img src="${value.video.thumbnails[3].url}" class="thumbnail">
                     <div class="flex-div">
                         <div class="vid-info">
                             <a href="">${value.video.title}</a>
@@ -65,4 +90,36 @@ const optionsVideos = {
                 `).join("")}
         `)
 
-})(urlVideos,optionsVideos);
+
+        // FUNCION DE QUE ESCUCHARÁ TODOS LOS VIDEOS AL HACERLE CLICK
+        const videoElements = document.querySelectorAll('.vid-list');
+        // Agrega un manejador de eventos a cada elemento video de INDEX
+        videoElements.forEach(video => {
+            video.addEventListener('click', () => {
+                let videoId = video.getAttribute('video-id');
+                localStorage.setItem('ID', videoId)
+                console.log(videoId);
+                });
+        });
+})(path)
+
+
+
+
+
+
+function changingVideo(parameter){ //Funcion para cambiar el video según video seleccionado
+    let iframe = document.querySelector('#video-left');
+    iframe.insertAdjacentHTML('afterbegin', `
+    <iframe width="100%" height="615" src="https://www.youtube.com/embed/${parameter}?si=czx-JXcyfxDxe0lv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+` )
+}
+
+let storageElement = localStorage.getItem('ID')
+console.log(storageElement);
+changingVideo(storageElement)
+
+
+
+
+
