@@ -23,6 +23,7 @@ const creativeCodeURL = 'UC8fkwsjcI_MhralEX1g4OBw';
 // 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 // 	}
 // };
+
 const pathChannel = "channel";
 (async(url)=>{ 
         let peticion = await fetch (`./JSON/${url}.json`) 
@@ -75,11 +76,14 @@ const path= "config";
         let response = await peticion.json()
         console.log(response);
 
+
+        // INSERTAR TARJETAS DE VIDEO AL INDEX.HTML
         let myVideos = document.querySelector('#vid-container');
+
         myVideos.insertAdjacentHTML("beforeend", `
             ${response.contents.map((value)=>`
                 <div class="vid-list" video-id='${value.video.videoId}'>
-                    <img src="${value.video.thumbnails[3].url}" class="thumbnail">
+                    <a href="./play-video.html"><img src="${value.video.thumbnails[3].url}" class="thumbnail"></a>
                     <div class="flex-div">
                         <div class="vid-info">
                             <a href="">${value.video.title}</a>
@@ -91,14 +95,18 @@ const path= "config";
         `)
 
 
-        // FUNCION DE QUE ESCUCHARÁ TODOS LOS VIDEOS AL HACERLE CLICK
+        // FUNCION DE QUE ESCUCHARÁ TODAS LAS TARJETAS DE VIDEOS CREADOS AL HACERLE CLICK 
         const videoElements = document.querySelectorAll('.vid-list');
-        // Agrega un manejador de eventos a cada elemento video de INDEX
+
+        // Agrega un manejador de eventos a cada tarjeta video
+
         videoElements.forEach(video => {
             video.addEventListener('click', () => {
                 let videoId = video.getAttribute('video-id');
+
+                 //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
+                 // PARA SABER EL ID DEL VIDEO AL QUE SE LE DIÓ CLICK
                 localStorage.setItem('ID', videoId)
-                console.log(videoId);
                 });
         });
 })(path)
