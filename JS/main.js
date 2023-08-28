@@ -86,7 +86,7 @@ const path= "config";
                     <a href="./play-video.html"><img src="${value.video.thumbnails[3].url}" class="thumbnail"></a>
                     <div class="flex-div">
                         <div class="vid-info">
-                            <a href="">${value.video.title}</a>
+                            <a href=""></a>
                             <p>${value.video.stats.views} Views &bull; ${value.video.publishedTimeText}</p>
                         </div>
                     </div>
@@ -99,7 +99,44 @@ const path= "config";
         const videoElements = document.querySelectorAll('.vid-list');
 
         // Agrega un manejador de eventos a cada tarjeta video
+        videoElements.forEach(video => {
+            video.addEventListener('click', () => {
+                let videoId = video.getAttribute('video-id');
 
+                 //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
+                 // PARA SABER EL ID DEL VIDEO AL QUE SE LE DIÓ CLICK
+                localStorage.setItem('ID', videoId)
+                });
+        });
+})(path);
+
+
+(async(parameters) => {
+
+        let peticion = await fetch (`./JSON/${parameters}.json`) 
+        let response = await peticion.json()
+        console.log(response);
+
+        // INSERTAR TARJETAS DE VIDEO AL PLAY-VIDEO
+
+        let rightSide = document.querySelector('#right-videos')
+        rightSide.insertAdjacentHTML('beforeend', `
+            ${response.contents.map((value)=>`
+            <div class="side-video-list" video-id='${value.video.videoId}'>
+                    <a href="./play-video.html" class="small-thumbnail"><img src="${value.video.thumbnails[3].url}"></a>
+                    <div class="vid-info">
+                        <a href="">${value.video.title}</a>
+                        <p>CreativeCode</p>
+                        <p>${value.video.stats.views} Views &bull; ${value.video.publishedTimeText}</p>
+                    </div>
+            </div>
+            `).join("")}
+        `)
+
+        // FUNCION DE QUE ESCUCHARÁ TODAS LAS TARJETAS DE VIDEOS CREADOS AL HACERLE CLICK 
+        const videoElements = document.querySelectorAll('.side-video-list');
+
+        // Agrega un manejador de eventos a cada tarjeta video
         videoElements.forEach(video => {
             video.addEventListener('click', () => {
                 let videoId = video.getAttribute('video-id');
@@ -137,9 +174,9 @@ const optionsVideoInfo = {
 	}
 };
 
-
-(async(url,config)=>{ 
-    let peticion = await fetch (url,config) 
+let infoVid = 'videoInfo';
+(async(url)=>{ 
+    let peticion = await fetch (`./JSON/${url}.json`) 
     let response = await peticion.json()
     console.log(response);
 
@@ -173,6 +210,62 @@ const optionsVideoInfo = {
             <hr>
         </div>
     `)
-})(urlVideoInfo,optionsVideoInfo);
+})(infoVid);
+
+let commentsVid = 'comments';
+
+(async(url)=>{ 
+    let peticion = await fetch (`./JSON/${url}.json`) 
+    let response = await peticion.json()
+    console.log(response);
+
+    let vidComm = document.querySelector('#vidComments')
+    if (response.totalCommentsCount == null){
+        vidComm.insertAdjacentHTML('beforeend', `
+        <h4>0 Comments</h4>
+
+        <div class="old-comment">
+            <div>
+                <p>
+                    The Comments have been desactivated
+                </p>
+                <div class="comment-action">
+                </div>
+            </div>
+        </div>
+        `)
+    }
+    else{
+        vidComm.insertAdjacentHTML('beforeend', `
+            <h4>${response.totalCommentsCount} Comments</h4>
+            <div class="add-comment">
+                <img src="../IMG/Jack.png" alt="">
+                <input type="text" placeholder="Write Comments...">
+            </div>
+            ${response.comments.map((value)=>`
+                 <div class="old-comment">
+                    <img src="${value.author.avatar[1].url}" alt="">
+                    <div>
+                        <h3>${value.author.title} <span>${value.publishedTimeText}</span></h3>
+                        <p>
+                            ${value.content}
+                        </p>
+                        <div class="comment-action">
+                            <img src="../IMG/like.png">
+                            <span>${value.stats.votes}</span>
+                            <img src="../IMG/dislike.png">
+                            <span></span>
+
+                            <span>REPLY</span>
+                            <a href="">${value.stats.replies} Replies</a>
+                        </div>
+                    </div>
+                </div>
+            `).join("")}
+        `)
+    }
+})(commentsVid);
+
+
 
 
