@@ -111,3 +111,6 @@ const path= "config";
 })(path);
 
 
+import { searchAll } from './video-play.js'
+
+document.querySelector('#chartSearch').addEventListener
