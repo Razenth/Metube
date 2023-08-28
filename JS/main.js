@@ -86,7 +86,7 @@ const path= "config";
                     <a href="./play-video.html"><img src="${value.video.thumbnails[3].url}" class="thumbnail"></a>
                     <div class="flex-div">
                         <div class="vid-info">
-                            <a href=""></a>
+                            <a href="./play-video.html">${value.video.title}</a>
                             <p>${value.video.stats.views} Views &bull; ${value.video.publishedTimeText}</p>
                         </div>
                     </div>
@@ -125,7 +125,7 @@ const path= "config";
             <div class="side-video-list" video-id='${value.video.videoId}'>
                     <a href="./play-video.html" class="small-thumbnail"><img src="${value.video.thumbnails[3].url}"></a>
                     <div class="vid-info">
-                        <a href="">${value.video.title}</a>
+                        <a href="./play-video.html">${value.video.title}</a>
                         <p>CreativeCode</p>
                         <p>${value.video.stats.views} Views &bull; ${value.video.publishedTimeText}</p>
                     </div>
@@ -156,7 +156,7 @@ const path= "config";
 function changingVideo(parameter){
     let iframe = document.querySelector('#video-left');
     iframe.insertAdjacentHTML('afterbegin', `
-    <iframe width="100%" height="615" src="https://www.youtube.com/embed/${parameter}?si=czx-JXcyfxDxe0lv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe width="100%" height="615" src="https://www.youtube.com/embed/${parameter}?si=czx-JXcyfxDxe0lv&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     `)
 }
 
