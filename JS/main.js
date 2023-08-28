@@ -239,7 +239,7 @@ let commentsVid = 'comments';
         vidComm.insertAdjacentHTML('beforeend', `
             <h4>${response.totalCommentsCount} Comments</h4>
             <div class="add-comment">
-                <img src="../IMG/Jack.png" alt="">
+                <img src="./IMG/Jack.png" alt="">
                 <input type="text" placeholder="Write Comments...">
             </div>
             ${response.comments.map((value)=>`
@@ -251,9 +251,9 @@ let commentsVid = 'comments';
                             ${value.content}
                         </p>
                         <div class="comment-action">
-                            <img src="../IMG/like.png">
+                            <img src=../IMG/like.png">
                             <span>${value.stats.votes}</span>
-                            <img src="../IMG/dislike.png">
+                            <img src="./IMG/dislike.png">
                             <span></span>
 
                             <span>REPLY</span>
