@@ -199,6 +199,7 @@ nav{
 
 .channel-info{
     padding: 0 5%;
+    margin: 15px 0;
 }
 
 .channel-top img{
@@ -357,10 +358,9 @@ nav{
     flex-basis: 69%;
 }
 
-/* .play-video iframe{
-    width: 100%;
-    height: 60%;
-} */
+.play-video iframe{
+    margin-bottom: 10px;
+}
 
 
 /* --------- RIGHT SIDEBAR  */
@@ -573,6 +573,11 @@ nav{
         flex-basis: 100%;
     }
 
+    .side-video-list{
+        display: flex;
+        flex-direction: column;
+    }
+
     .play-container{
         padding-left: 5%;
     }
@@ -586,6 +591,11 @@ nav{
         margin-right: 15px;
         margin-top: 15px;
     }
+}
+
+@media (max-width: 768px) {
+    /* Realizar MEDIA QUERRY */
+    
 }
 
 /* ----------------------------------- */
