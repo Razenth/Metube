@@ -142,6 +142,37 @@ const optionsVideoInfo = {
     let peticion = await fetch (url,config) 
     let response = await peticion.json()
     console.log(response);
+
+    let infoVid = document.querySelector('#top-info')
+
+    infoVid.insertAdjacentHTML('afterend', 
+    `
+        <h3>${response.title}</h3>
+
+        <div class="play-video-info">
+            <p>${response.stats.views} Views &bull; Publish Date: ${response.publishedDate}</p>
+            <div>
+                <a href=""><img src="../IMG/like.png">${response.stats.likes}</a>
+                <a href=""><img src="../IMG/dislike.png"></a>
+                <a href=""><img src="../IMG/share.png">Share</a>
+                <a href=""><img src="../IMG/save.png">Save</a>
+            </div>
+        </div>
+        <hr>
+        <div class="publisher">
+            <img src="${response.author.avatar[2].url}">
+            <div>
+                <p>${response.author.title}</p>
+                <span>${response.author.stats.subscribersText}</span>
+            </div>
+            <button type="button">Subscribe</button>
+        </div>
+        
+        <div class="vid-description" id="vid-description">
+            <p>${response.description}</p>
+            <hr>
+        </div>
+    `)
 })(urlVideoInfo,optionsVideoInfo);
 
 
