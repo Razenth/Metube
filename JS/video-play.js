@@ -1,4 +1,4 @@
-const apiKey = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
+const apiKey = 'c628099f2bmshd8dd3305bf1fbcep19ea7bjsn8fab3eab6600'
 
 // FUNCIONALIDAD PARA MOSTRAR INFORMACION DEL VIDEO
 const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
@@ -86,6 +86,8 @@ headers: {
 let peticion = await fetch (url,options) 
 let response = await peticion.json()
 console.log(response);
+
+document.querySelector('.title').insertAdjacentHTML('beforeend', response.title)
 
 let infoVid = document.querySelector('#top-info')
 

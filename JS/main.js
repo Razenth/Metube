@@ -1,4 +1,4 @@
-const apiKey = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
+const apiKey = 'c628099f2bmshd8dd3305bf1fbcep19ea7bjsn8fab3eab6600'
 
 // ----------- STYLE AND HTML CONFIG MENU-ICON
 
