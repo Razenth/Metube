@@ -1,5 +1,5 @@
-const apiKey = 'c628099f2bmshd8dd3305bf1fbcep19ea7bjsn8fab3eab6600'
-// const apiKeyBackup = 'ee0570bc0cmsh178a5f70c12babbp1e1861jsnb95d6c5494a0'
+const apiKey = 'ee0570bc0cmsh178a5f70c12babbp1e1861jsnb95d6c5494a0'
+
 
 // ----------- STYLE AND HTML CONFIG MENU-ICON
 

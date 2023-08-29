@@ -89,7 +89,7 @@
       {
         "type": "video",
         "video": {
-          "badges": [],
+          "badges":[],
           "isLiveNow": false,
           "lengthSeconds": 2235,
           "movingThumbnails": [

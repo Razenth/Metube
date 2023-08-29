@@ -39,7 +39,7 @@
       null
     ],
     "category": "People & Blogs",
-    "chapters": [],
+    "chapters":[],
     "description": "Arquitectura Aplicacion/Persistencia/Dominio/Aplicacion",
     "endScreen": {
       "items": []

@@ -124,11 +124,7 @@ nav{
     height: auto;
     width: 11px;
 }
-
-
-
 /* ------------------------------------ */
-
 
 /* -------- SIDEBAR ----------- */
 
@@ -318,8 +314,6 @@ nav{
     margin: 10px 0;
 }
 
-
-
 .list-container{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -414,7 +408,6 @@ nav{
 .play-video iframe{
     margin-bottom: 10px;
 }
-
 
 /* --------- RIGHT SIDEBAR  */
 
@@ -672,7 +665,6 @@ nav{
     }
     
 }
-
 
 @media (max-width: 500px) {
     .nav-middle .search-box input{
