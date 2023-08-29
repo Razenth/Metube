@@ -1,8 +1,10 @@
+const token = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
+
 const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
 const generalOpt = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Key': `${token}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -62,7 +64,7 @@ const urlVideoInfo = `https://youtube138.p.rapidapi.com/video/details/?id=${stor
 const optionsVideoInfo = {
 method: 'GET',
 headers: {
-    'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+    'X-RapidAPI-Key': `${token}`,
     'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 }
 };
@@ -212,7 +214,7 @@ document.querySelector('#chartSearch').addEventListener("change", (e)=>{
 const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Key': `${token}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };

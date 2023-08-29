@@ -11,6 +11,8 @@ menuIcon.onclick = function(){
 
 // -------------------------------------------------------
 
+const token = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
+
 // IMPORT DATA CHANNEL AND MAKING TESTS
 
 const creativeCodeURL = 'UC8fkwsjcI_MhralEX1g4OBw';
@@ -18,7 +20,7 @@ const urlChannel = 'https://youtube138.p.rapidapi.com/channel/details/?id=UC8fkw
 const optionsChannel = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Key':`${token}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -64,7 +66,7 @@ const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsj
 const optionsVideos = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Key': `${token}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -128,7 +130,7 @@ document.querySelector('#chartSearch').addEventListener("change", (e)=>{
 const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Key': `${token}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
