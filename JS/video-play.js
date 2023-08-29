@@ -1,11 +1,15 @@
+const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
+const generalOpt = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+	}
+};
+// const path= "config";
 
-
-
-const path= "config";
-
-(async(parameters) => {
-
-    let peticion = await fetch (`./JSON/${parameters}.json`) 
+(async(parameters,config) => {
+    let peticion = await fetch (parameters,config) 
     let response = await peticion.json()
     console.log(response);
 
@@ -38,10 +42,7 @@ const path= "config";
             localStorage.setItem('ID', videoId)
             });
     });
-})(path)
-
-
-
+})(urlVideos,generalOpt)
 
 
 //Funcion para cambiar el video según video seleccionado
@@ -57,7 +58,7 @@ console.log(storageElement);
 changingVideo(storageElement)
 
 
-// const urlVideoInfo = `https://youtube138.p.rapidapi.com/video/details/?id=${storageElement}&hl=en&gl=US`;
+const urlVideoInfo = `https://youtube138.p.rapidapi.com/video/details/?id=${storageElement}&hl=en&gl=US`;
 const optionsVideoInfo = {
 method: 'GET',
 headers: {
@@ -66,15 +67,16 @@ headers: {
 }
 };
 
-let infoVid = 'videoInfo';
-(async(url)=>{ 
-let peticion = await fetch (`./JSON/${url}.json`) 
+// let infoVid = 'videoInfo';
+(async(url,options)=>{ 
+let peticion = await fetch (url,options) 
 let response = await peticion.json()
 console.log(response);
 
 let infoVid = document.querySelector('#top-info')
 
-infoVid.insertAdjacentHTML('afterend', 
+if (response.description == null){
+    infoVid.insertAdjacentHTML('afterend', 
 `
     <h3>${response.title}</h3>
 
@@ -96,22 +98,54 @@ infoVid.insertAdjacentHTML('afterend',
         </div>
         <button type="button">Subscribe</button>
     </div>
-    
+
     <div class="vid-description" id="vid-description">
-        <p>${response.description}</p>
-        <hr>
+    <p>The author doesn't put a description</p>
+    <hr>
     </div>
 `)
-})(infoVid);
+}
+else{
+    infoVid.insertAdjacentHTML('afterend', 
+    `
+        <h3>${response.title}</h3>
+
+        <div class="play-video-info">
+            <p>${response.stats.views} Views &bull; Publish Date: ${response.publishedDate}</p>
+            <div>
+                <a href=""><img src="./IMG/like.png">${response.stats.likes}</a>
+                <a href=""><img src="./IMG/dislike.png"></a>
+                <a href=""><img src="./IMG/share.png">Share</a>
+                <a href=""><img src="./IMG/save.png">Save</a>
+            </div>
+        </div>
+        <hr>
+        <div class="publisher">
+            <img src="${response.author.avatar[2].url}">
+            <div>
+                <p>${response.author.title}</p>
+                <span>${response.author.stats.subscribersText}</span>
+            </div>
+            <button type="button">Subscribe</button>
+        </div>
+        
+        <div class="vid-description" id="vid-description">
+            <p>${response.description}</p>
+            <hr>
+        </div>
+    `)
+}
+})(urlVideoInfo,generalOpt);
 
 
 
 // -------------- INSERTANDO COMENTARIOS A PLAY-VIDEO.HTML
 
-let commentsVid = 'comments';
+const urlComments = `https://youtube138.p.rapidapi.com/video/comments/?id=${storageElement}&hl=en&gl=US`;
+// let commentsVid = 'comments';
 
-(async(url)=>{ 
-let peticion = await fetch (`./JSON/${url}.json`) 
+(async(url,config)=>{ 
+let peticion = await fetch (url,config) 
 let response = await peticion.json()
 console.log(response);
 
@@ -160,10 +194,64 @@ else{
         `).join("")}
     `)
 }
-})(commentsVid);
+})(urlComments,generalOpt);
 
 
+// FUNCIONALIDAD Y CSS DE BUSCADOR EN PLAY-VIDEO
+document.querySelector('#chartSearch').addEventListener("change", (e)=>{
+    if (e.target.value == ''){
+        document.querySelector(".search-box").style.borderRadius = "15px"
+        document.querySelector(".resultsDiv").style.display = "none"
+    }
+    else{
+        document.querySelector(".search-box").style.borderRadius = "15px 15px 0 0"
+        searchAll(e.target.value);
+    }
+});
 
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+	}
+};
+const searchAll = async(p1)=>{
+    options.method = 'GET';
+    const peticion = await fetch(`https://youtube138.p.rapidapi.com/channel/search/?id=UC8fkwsjcI_MhralEX1g4OBw&q=${p1}&hl=en&gl=US`, options);
+    // const peticion = await fetch(`../JSON/search.json`, options);
+    const json = await peticion.json();
+
+    let h = 0, cont = 0;
+    let array = json.contents.map((val,id)=>{
+        if(val.playlist) return undefined;
+        else{
+            cont++
+        }
+        if(cont <= 10) h = 30*cont;
+
+
+        return `<a href="../play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
+    })
+    document.querySelector(".resultsDiv").style.display = "inline"
+    document.querySelector("#active").style.height = `${h}px`
+    document.querySelector("#searchAll").innerHTML = null
+    document.querySelector("#searchAll").insertAdjacentHTML("beforeend", array.join(""))
+
+    const searchElement = document.querySelectorAll('.searchElement');
+
+    // Agrega un manejador de eventos a cada tarjeta video
+    searchElement.forEach(element => {
+        element.addEventListener('click', () => {
+            const videoId = element.getAttribute('video-id');
+
+             //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
+             // PARA SABER EL ID DEL VIDEO AL QUE SE LE DIÓ CLICK
+            console.log(videoId);
+            localStorage.setItem('ID', videoId)
+            });
+    })
+}
 
 
 

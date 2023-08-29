@@ -99,6 +99,9 @@ nav{
     background:#f9f9f9;
     border-radius: 0 0 5px 5px;
     overflow-y: auto;
+    -webkit-box-shadow: 1px 1px 5px 2px rgba(105,105,105,1);
+-moz-box-shadow: 1px 1px 5px 2px rgba(105,105,105,1);
+box-shadow: 1px 1px 5px 2px rgba(105,105,105,1);
 }
 
 #searchAll{

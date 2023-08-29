@@ -1,5 +1,3 @@
-// import { searchAll } from './video-play.js';
-
 // ----------- STYLE AND HTML CONFIG MENU-ICON
 
 let menuIcon = document.querySelector('.menu-icon');
@@ -16,19 +14,19 @@ menuIcon.onclick = function(){
 // IMPORT DATA CHANNEL AND MAKING TESTS
 
 const creativeCodeURL = 'UC8fkwsjcI_MhralEX1g4OBw';
-// const urlChannel = 'https://youtube138.p.rapidapi.com/channel/details/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
-// const optionsChannel = {
-// 	method: 'GET',
-// 	headers: {
-// 		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
-// 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
-// 	}
-// };
+const urlChannel = 'https://youtube138.p.rapidapi.com/channel/details/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
+const optionsChannel = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+	}
+};
 
-const pathChannel = "channel";
-(async(url)=>{ 
-        let peticion = await fetch (`./JSON/${url}.json`) 
-        let response = await peticion.json()
+// const pathChannel = "channel";
+(async(url,options)=>{ 
+        let peticion = await fetch (url,options); 
+        let response = await peticion.json();
         console.log(response);
 
 
@@ -59,21 +57,21 @@ const pathChannel = "channel";
                 </div>
             </div>
         `)
-})(pathChannel);
+})(urlChannel,optionsChannel);
 
 
-// const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
-// const optionsVideos = {
-// 	method: 'GET',
-// 	headers: {
-// 		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
-// 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
-// 	}
-// };
+const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
+const optionsVideos = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+	}
+};
 
-const path= "config";
-(async(paramet)=>{ 
-        let peticion = await fetch (`./JSON/${paramet}.json`) 
+// const path= "config";
+(async(paramet,config)=>{ 
+        let peticion = await fetch (paramet,config) 
         let response = await peticion.json()
         console.log(response);
 
@@ -109,9 +107,13 @@ const path= "config";
                 localStorage.setItem('ID', videoId)
                 });
         });
-})(path);
+})(urlVideos,optionsVideos);
 
 
+
+
+
+// FUNCIONES PARA BUSCADOR, TANTO CSS COMO FUNCIONALIDAD
 document.querySelector('#chartSearch').addEventListener("change", (e)=>{
     if (e.target.value == ''){
         document.querySelector(".search-box").style.borderRadius = "15px"
@@ -121,7 +123,7 @@ document.querySelector('#chartSearch').addEventListener("change", (e)=>{
         document.querySelector(".search-box").style.borderRadius = "15px 15px 0 0"
         searchAll(e.target.value);
     }
-})
+});
 
 const options = {
 	method: 'GET',
@@ -132,8 +134,8 @@ const options = {
 };
 const searchAll = async(p1)=>{
     options.method = 'GET';
-    // const peticion = `https://youtube138.p.rapidapi.com/channel/search/?id=UC8fkwsjcI_MhralEX1g4OBw&q=${p1}&hl=en&gl=US`;
-    const peticion = await fetch(`../JSON/search.json`, options);
+    const peticion = await fetch(`https://youtube138.p.rapidapi.com/channel/search/?id=UC8fkwsjcI_MhralEX1g4OBw&q=${p1}&hl=en&gl=US`, options);
+    // const peticion = await fetch(`../JSON/search.json`, options);
     const json = await peticion.json();
 
     let h = 0, cont = 0;
