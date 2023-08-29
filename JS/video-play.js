@@ -233,7 +233,7 @@ const searchAll = async(p1)=>{
         if(cont <= 10) h = 30*cont;
 
 
-        return `<a href="../play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
+        return `<a href="./play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
     })
     document.querySelector(".resultsDiv").style.display = "inline"
     document.querySelector("#active").style.height = `${h}px`

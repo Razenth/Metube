@@ -1,3 +1,5 @@
+const token = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
+
 // ----------- STYLE AND HTML CONFIG MENU-ICON
 
 let menuIcon = document.querySelector('.menu-icon');
@@ -10,8 +12,6 @@ menuIcon.onclick = function(){
 }
 
 // -------------------------------------------------------
-
-const token = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
 
 // IMPORT DATA CHANNEL AND MAKING TESTS
 
@@ -149,7 +149,7 @@ const searchAll = async(p1)=>{
         if(cont <= 10) h = 30*cont;
 
 
-        return `<a href="../play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
+        return `<a href="./play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
     })
     document.querySelector(".resultsDiv").style.display = "inline"
     document.querySelector("#active").style.height = `${h}px`
