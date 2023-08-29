@@ -1,6 +1,8 @@
 const apiKey = 'c628099f2bmshd8dd3305bf1fbcep19ea7bjsn8fab3eab6600'
+// const apiKeyBackup = 'ee0570bc0cmsh178a5f70c12babbp1e1861jsnb95d6c5494a0'
 
-// FUNCIONALIDAD PARA MOSTRAR INFORMACION DEL VIDEO
+
+// --------------- FUNCIONALIDAD PARA MOSTRAR VIDEO LATERALES EN LA PÁGINA
 const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
 const generalOpt = {
 	method: 'GET',
@@ -10,6 +12,7 @@ const generalOpt = {
 	}
 };
 // const path= "config";
+let storageElement2 = localStorage.getItem('Date');
 
 (async(parameters,config) => {
     let peticion = await fetch (parameters,config) 
@@ -31,7 +34,7 @@ const generalOpt = {
     } 
     rightSide.insertAdjacentHTML('beforeend', `
         ${response.contents.map((value)=>`
-        <div class="side-video-list" video-id='${value.video.videoId}'>
+        <div videoDate="${value.video.publishedTimeText}" class="side-video-list" video-id='${value.video.videoId}'>
                 <a href="./play-video.html" class="small-thumbnail"><img src="${value.video.thumbnails[3].url}"></a>
                 <div class="vid-info">
                     <a href="./play-video.html">${value.video.title}</a>
@@ -49,10 +52,12 @@ const generalOpt = {
     videoElements.forEach(video => {
         video.addEventListener('click', () => {
             let videoId = video.getAttribute('video-id');
+            let videoDate = video.getAttribute('videoDate');
 
              //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
              // PARA SABER EL ID DEL VIDEO AL QUE SE LE DIÓ CLICK
             localStorage.setItem('ID', videoId)
+            localStorage.setItem('Date', videoDate)
             });
     });
 })(urlVideos,generalOpt)
@@ -96,7 +101,7 @@ infoVid.insertAdjacentHTML('afterbegin',
     <h3>${response.title}</h3>
 
     <div class="play-video-info">
-        <p>${response.stats.views} Views &bull; Publish Date: ${response.publishedDate}</p>
+        <p>${response.stats.views} Views &bull; ${storageElement2}</p>
         <div>
             <a href=""><img src="./IMG/like.png">${response.stats.likes}</a>
             <a href=""><img src="./IMG/dislike.png"></a>
@@ -106,9 +111,9 @@ infoVid.insertAdjacentHTML('afterbegin',
     </div>
     <hr>
     <div class="publisher">
-        <img src="${response.author.avatar[2].url}">
+        <a href="./index.html"><img src="${response.author.avatar[2].url}"></a>
         <div>
-            <p>${response.author.title}</p>
+            <a href="./index.html"><p>${response.author.title}</p></a>
             <span>${response.author.stats.subscribersText}</span>
         </div>
         <button type="button">Subscribe</button>
@@ -229,7 +234,7 @@ const searchAll = async(p1)=>{
         if(cont <= 10) h = 30*cont;
 
         // CREO LA ETIQUETA HTML DEL ELEMENTO DE BUSQUEDA CON UN ATRIBUTO PARA GUARDAR EL ID DEL VIDEO
-        return `<a href="./play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
+        return `<a href="./play-video.html" videoDate="${val.video.publishedTimeText}" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
     })
     document.querySelector(".resultsDiv").style.display = "inline"
     document.querySelector("#active").style.height = `${h}px`
@@ -242,10 +247,12 @@ const searchAll = async(p1)=>{
     searchElement.forEach(element => {
         element.addEventListener('click', () => {
             const videoId = element.getAttribute('video-id');
+            let videoDate = element.getAttribute('videoDate');
 
              //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
              // PARA SABER EL ID DEL ELEMENTOO AL QUE SE LE DIÓ CLICK
             localStorage.setItem('ID', videoId)
+            localStorage.setItem('Date', videoDate)
             });
     })
 }
