@@ -66,11 +66,11 @@ let storageElement2 = localStorage.getItem('Date');
 //FUNCIONALIDAD PARA MOSTRAR EL VIDEO SELECCIONADO EN EL INDEX
 function changingVideo(parameter){
 let iframe = document.querySelector('#video-left');
+
 iframe.insertAdjacentHTML('afterbegin', `
-<iframe width="100%" height="615" src="https://www.youtube.com/embed/${parameter}?si=czx-JXcyfxDxe0lv&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe width="100%" height="615" src="https://www.youtube.com/embed/${parameter}?si=czx-JXcyfxDxe0lv&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 `)
 }
-
 let storageElement = localStorage.getItem('ID')
 changingVideo(storageElement)
 
