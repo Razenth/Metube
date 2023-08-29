@@ -1,4 +1,4 @@
-const token = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
+const apiKey = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
 
 // ----------- STYLE AND HTML CONFIG MENU-ICON
 
@@ -13,14 +13,13 @@ menuIcon.onclick = function(){
 
 // -------------------------------------------------------
 
-// IMPORT DATA CHANNEL AND MAKING TESTS
-
+// FUNCIONALIDAD PARA MOSTRAR LA INFORMACION DEL CANAL EN LA PÁGINA
 const creativeCodeURL = 'UC8fkwsjcI_MhralEX1g4OBw';
 const urlChannel = 'https://youtube138.p.rapidapi.com/channel/details/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
 const optionsChannel = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key':`${token}`,
+		'X-RapidAPI-Key':`${apiKey}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -62,11 +61,13 @@ const optionsChannel = {
 })(urlChannel,optionsChannel);
 
 
+
+// FUNCIONALIDAD PARA MOSTRAR LOS VIDEOS DEL CANAL
 const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
 const optionsVideos = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': `${token}`,
+		'X-RapidAPI-Key': `${apiKey}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -77,10 +78,18 @@ const optionsVideos = {
         let response = await peticion.json()
         console.log(response);
 
-
         // INSERTAR TARJETAS DE VIDEO AL INDEX.HTML
         let myVideos = document.querySelector('#vid-container');
-
+        if (response.message){
+            myVideos.insertAdjacentHTML("beforeend", `
+                <div class="vid-list"'>
+                    SE NOS ACABÓ LA API :(
+                    <br>    
+                    <br>
+                    PORFAVOR BUSCAR OTRA KEY :P
+                </div>
+            `)
+        } 
         myVideos.insertAdjacentHTML("beforeend", `
             ${response.contents.map((value)=>`
                 <div class="vid-list" video-id='${value.video.videoId}'>
@@ -117,11 +126,11 @@ const optionsVideos = {
 
 // FUNCIONES PARA BUSCADOR, TANTO CSS COMO FUNCIONALIDAD
 document.querySelector('#chartSearch').addEventListener("change", (e)=>{
-    if (e.target.value == ''){
+    if (e.target.value == ''){ // CUANDO EL BUSCADOR ESTÉ VACIO BORRO EL CONTENEDOR DE SIMILITUDES
         document.querySelector(".search-box").style.borderRadius = "15px"
         document.querySelector(".resultsDiv").style.display = "none"
     }
-    else{
+    else{ //CUANDO SE ESCRIBA Y SE MANDE LA INFORMACION, ME MOSTRARÁ EL CONTENEDOR Y LE DARÉ ALGO DE BORDE BONITO :3
         document.querySelector(".search-box").style.borderRadius = "15px 15px 0 0"
         searchAll(e.target.value);
     }
@@ -130,7 +139,7 @@ document.querySelector('#chartSearch').addEventListener("change", (e)=>{
 const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': `${token}`,
+		'X-RapidAPI-Key': `${apiKey}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -158,14 +167,13 @@ const searchAll = async(p1)=>{
 
     const searchElement = document.querySelectorAll('.searchElement');
 
-    // Agrega un manejador de eventos a cada tarjeta video
+    // Agrega un manejador de eventos a cada recomendación del buscador
     searchElement.forEach(element => {
         element.addEventListener('click', () => {
             const videoId = element.getAttribute('video-id');
 
              //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
-             // PARA SABER EL ID DEL VIDEO AL QUE SE LE DIÓ CLICK
-            console.log(videoId);
+             // PARA SABER EL ID DEL ELEMENTOO AL QUE SE LE DIÓ CLICK
             localStorage.setItem('ID', videoId)
             });
     })

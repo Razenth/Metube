@@ -1,10 +1,11 @@
-const token = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
+const apiKey = '1c5939c8eamshe746361478a17abp160705jsn930d56635adb'
 
+// FUNCIONALIDAD PARA MOSTRAR INFORMACION DEL VIDEO
 const urlVideos = 'https://youtube138.p.rapidapi.com/channel/videos/?id=UC8fkwsjcI_MhralEX1g4OBw&hl=en&gl=US';
 const generalOpt = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': `${token}`,
+		'X-RapidAPI-Key': `${apiKey}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -18,6 +19,16 @@ const generalOpt = {
     // INSERTAR TARJETAS DE VIDEO AL PLAY-VIDEO
 
     let rightSide = document.querySelector('#right-videos')
+    if (response.message){
+        rightSide.insertAdjacentHTML("beforeend", `
+            <div class="vid-list"'>
+                SE NOS ACABÓ LA API :(
+                <br>    
+                <br>
+                PORFAVOR BUSCAR OTRA KEY :P
+            </div>
+        `)
+    } 
     rightSide.insertAdjacentHTML('beforeend', `
         ${response.contents.map((value)=>`
         <div class="side-video-list" video-id='${value.video.videoId}'>
@@ -47,7 +58,7 @@ const generalOpt = {
 })(urlVideos,generalOpt)
 
 
-//Funcion para cambiar el video según video seleccionado
+//FUNCIONALIDAD PARA MOSTRAR EL VIDEO SELECCIONADO EN EL INDEX
 function changingVideo(parameter){
 let iframe = document.querySelector('#video-left');
 iframe.insertAdjacentHTML('afterbegin', `
@@ -56,15 +67,16 @@ iframe.insertAdjacentHTML('afterbegin', `
 }
 
 let storageElement = localStorage.getItem('ID')
-console.log(storageElement);
 changingVideo(storageElement)
 
 
+
+// FUNCIONES PARA AGREGAR INFORMACIÓN DEL VIDEO EN LA PÁGINA ----------
 const urlVideoInfo = `https://youtube138.p.rapidapi.com/video/details/?id=${storageElement}&hl=en&gl=US`;
 const optionsVideoInfo = {
 method: 'GET',
 headers: {
-    'X-RapidAPI-Key': `${token}`,
+    'X-RapidAPI-Key': `${apiKey}`,
     'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 }
 };
@@ -77,9 +89,8 @@ console.log(response);
 
 let infoVid = document.querySelector('#top-info')
 
-if (response.description == null){
-    infoVid.insertAdjacentHTML('afterend', 
-`
+infoVid.insertAdjacentHTML('afterbegin', 
+    `
     <h3>${response.title}</h3>
 
     <div class="play-video-info">
@@ -100,7 +111,11 @@ if (response.description == null){
         </div>
         <button type="button">Subscribe</button>
     </div>
+`)
 
+if (response.description == null){
+    infoVid.insertAdjacentHTML('beforeend', 
+    `
     <div class="vid-description" id="vid-description">
     <p>The author doesn't put a description</p>
     <hr>
@@ -108,29 +123,8 @@ if (response.description == null){
 `)
 }
 else{
-    infoVid.insertAdjacentHTML('afterend', 
+    infoVid.insertAdjacentHTML('beforeend', 
     `
-        <h3>${response.title}</h3>
-
-        <div class="play-video-info">
-            <p>${response.stats.views} Views &bull; Publish Date: ${response.publishedDate}</p>
-            <div>
-                <a href=""><img src="./IMG/like.png">${response.stats.likes}</a>
-                <a href=""><img src="./IMG/dislike.png"></a>
-                <a href=""><img src="./IMG/share.png">Share</a>
-                <a href=""><img src="./IMG/save.png">Save</a>
-            </div>
-        </div>
-        <hr>
-        <div class="publisher">
-            <img src="${response.author.avatar[2].url}">
-            <div>
-                <p>${response.author.title}</p>
-                <span>${response.author.stats.subscribersText}</span>
-            </div>
-            <button type="button">Subscribe</button>
-        </div>
-        
         <div class="vid-description" id="vid-description">
             <p>${response.description}</p>
             <hr>
@@ -141,7 +135,7 @@ else{
 
 
 
-// -------------- INSERTANDO COMENTARIOS A PLAY-VIDEO.HTML
+// -------------- INSERTANDO COMENTARIOS A LA PÁGINA
 
 const urlComments = `https://youtube138.p.rapidapi.com/video/comments/?id=${storageElement}&hl=en&gl=US`;
 // let commentsVid = 'comments';
@@ -199,7 +193,7 @@ else{
 })(urlComments,generalOpt);
 
 
-// FUNCIONALIDAD Y CSS DE BUSCADOR EN PLAY-VIDEO
+//-------- FUNCIONALIDAD Y CSS DE BUSCADOR EN LA PÁGINA
 document.querySelector('#chartSearch').addEventListener("change", (e)=>{
     if (e.target.value == ''){
         document.querySelector(".search-box").style.borderRadius = "15px"
@@ -214,7 +208,7 @@ document.querySelector('#chartSearch').addEventListener("change", (e)=>{
 const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': `${token}`,
+		'X-RapidAPI-Key': `${apiKey}`,
 		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
 	}
 };
@@ -232,7 +226,7 @@ const searchAll = async(p1)=>{
         }
         if(cont <= 10) h = 30*cont;
 
-
+        // CREO LA ETIQUETA HTML DEL ELEMENTO DE BUSQUEDA CON UN ATRIBUTO PARA GUARDAR EL ID DEL VIDEO
         return `<a href="./play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
     })
     document.querySelector(".resultsDiv").style.display = "inline"
@@ -242,14 +236,13 @@ const searchAll = async(p1)=>{
 
     const searchElement = document.querySelectorAll('.searchElement');
 
-    // Agrega un manejador de eventos a cada tarjeta video
+   // Agrega un manejador de eventos a cada recomendación del buscador
     searchElement.forEach(element => {
         element.addEventListener('click', () => {
             const videoId = element.getAttribute('video-id');
 
              //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
-             // PARA SABER EL ID DEL VIDEO AL QUE SE LE DIÓ CLICK
-            console.log(videoId);
+             // PARA SABER EL ID DEL ELEMENTOO AL QUE SE LE DIÓ CLICK
             localStorage.setItem('ID', videoId)
             });
     })
