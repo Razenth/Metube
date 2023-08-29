@@ -65,7 +65,7 @@ nav{
     border: 1px solid #ccc;
     margin-right: 15px;
     padding: 8px 12px;
-    border-radius: 15px 15px 0 0;
+    border-radius: 15px
 }
 
 .nav-middle .search-box input{
@@ -88,7 +88,7 @@ nav{
     display: flex;
     flex-direction: column;
     width: 100%;
-    overflow: visible;
+    display: none;
 }
 
 #active{
@@ -96,7 +96,7 @@ nav{
     padding: 10px 0 10px 15px;
     position: absolute;
     z-index: 5;
-    background: #5a5a5a;
+    background:#f9f9f9;
     border-radius: 0 0 5px 5px;
     overflow-y: auto;
 }
@@ -104,13 +104,24 @@ nav{
 #searchAll{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 17px;
+    gap: 10px;
+}
+
+#searchAll li{
+    margin: 5px 0;
 }
 
 #searchAll a, #searchAll li{
     list-style: none;
-    color: white;
+    color: black;
 
 }
+
+.lupaSvg{
+    height: auto;
+    width: 11px;
+}
+
 
 
 /* ------------------------------------ */

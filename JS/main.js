@@ -1,3 +1,5 @@
+// import { searchAll } from './video-play.js';
+
 // ----------- STYLE AND HTML CONFIG MENU-ICON
 
 let menuIcon = document.querySelector('.menu-icon');
@@ -10,7 +12,6 @@ menuIcon.onclick = function(){
 }
 
 // -------------------------------------------------------
-
 
 // IMPORT DATA CHANNEL AND MAKING TESTS
 
@@ -111,6 +112,57 @@ const path= "config";
 })(path);
 
 
-import { searchAll } from './video-play.js'
+document.querySelector('#chartSearch').addEventListener("change", (e)=>{
+    if (e.target.value == ''){
+        document.querySelector(".search-box").style.borderRadius = "15px"
+        document.querySelector(".resultsDiv").style.display = "none"
+    }
+    else{
+        document.querySelector(".search-box").style.borderRadius = "15px 15px 0 0"
+        searchAll(e.target.value);
+    }
+})
 
-document.querySelector('#chartSearch').addEventListener
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '934a7bd36amsh12abd614806dcaap162e10jsnfbadd68f361e',
+		'X-RapidAPI-Host': 'youtube138.p.rapidapi.com'
+	}
+};
+const searchAll = async(p1)=>{
+    options.method = 'GET';
+    // const peticion = `https://youtube138.p.rapidapi.com/channel/search/?id=UC8fkwsjcI_MhralEX1g4OBw&q=${p1}&hl=en&gl=US`;
+    const peticion = await fetch(`../JSON/search.json`, options);
+    const json = await peticion.json();
+
+    let h = 0, cont = 0;
+    let array = json.contents.map((val,id)=>{
+        if(val.playlist) return undefined;
+        else{
+            cont++
+        }
+        if(cont <= 10) h = 30*cont;
+
+
+        return `<a href="../play-video.html" class='searchElement' video-id='${val.video.videoId}'><li><img src="../IMG/lupa.svg" alt="" class='lupaSvg'> ${val.video.title}</li></a>`
+    })
+    document.querySelector(".resultsDiv").style.display = "inline"
+    document.querySelector("#active").style.height = `${h}px`
+    document.querySelector("#searchAll").innerHTML = null
+    document.querySelector("#searchAll").insertAdjacentHTML("beforeend", array.join(""))
+
+    const searchElement = document.querySelectorAll('.searchElement');
+
+    // Agrega un manejador de eventos a cada tarjeta video
+    searchElement.forEach(element => {
+        element.addEventListener('click', () => {
+            const videoId = element.getAttribute('video-id');
+
+             //GUARDO EL VALOR DEL ATRIBUTO ANTERIORMENTE CREADO
+             // PARA SABER EL ID DEL VIDEO AL QUE SE LE DIÓ CLICK
+            console.log(videoId);
+            localStorage.setItem('ID', videoId)
+            });
+    })
+}
