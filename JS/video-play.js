@@ -1,4 +1,4 @@
-const apiKey = 'ee0570bc0cmsh178a5f70c12babbp1e1861jsnb95d6c5494a0'
+const apiKey = '5e3d625457mshf2c6cf0d18fe48ep1b9127jsnb1fd2409046a'
 
 
 // --------------- FUNCIONALIDAD PARA MOSTRAR VIDEO LATERALES EN LA PÁGINA
